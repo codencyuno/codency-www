@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Magic Link Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-['Montserrat'] min-h-screen bg-[#FAFAF5]">
+  <div class="flex min-h-screen p-5 md:p-10">
+    <div class="hidden lg:block flex-1 bg-[url('CODENCY.PNG')] bg-center bg-cover bg-no-repeat rounded-l-2xl relative shadow-[0_8px_32px_rgba(27,27,27,0.08)] scale-105">
+    </div>
+    <div class="flex-1 flex justify-center items-center">
+      <div class="bg-white p-6 md:p-10 rounded-2xl lg:rounded-r-2xl lg:rounded-l-none shadow-[0_8px_32px_rgba(27,27,27,0.08)] w-full max-w-[400px]">
+        <img src="https://www.codency.uno/assets/images/logo-transparent-bg.png" alt="Codency Logo" class="w-24 mb-4 mx-auto">
+        <h2 class="text-[#4D3E3E] mb-4 text-3xl font-bold text-center">Login or Sign Up</h2>
+        <p class="text-[#B0B0B0] mb-6 leading-relaxed text-center">Enter your email address below and we'll send you a magic link for a password-free sign in experience.</p>        <input id="email" type="email" placeholder="Enter your email address" required class="w-full p-4 my-4 border-2 border-[#B0B0B0] rounded-lg text-base transition-all duration-300 bg-[#FAFAF5] focus:outline-none focus:border-[#F9D43A] focus:shadow-[0_0_0_3px_rgba(249,212,58,0.1)]" />
+        <div class="flex items-center mb-4">
+          <input type="checkbox" id="terms" class="mr-2">
+          <label for="terms" class="text-sm text-[#B0B0B0]">I agree to the <a href="#" class="text-[#C6922C]">Terms of Service</a> and <a href="#" class="text-[#C6922C]">Privacy Policy</a></label>
+        </div>
+        <button id="magicLinkBtn" onclick="sendMagicLink()" class="w-full p-4 mt-4 bg-[#F9D43A] text-[WHITE] border-none rounded-lg text-base font-semibold cursor-pointer transition-all duration-300 hover:translate-y-[-2px] hover:shadow-[0_4px_20px_rgba(198,146,44,0.2)] disabled:opacity-50 disabled:cursor-not-allowed">Send Magic Link</button>
+        
+        <div id="message" class="fixed bottom-8 right-4 p-4 rounded-lg text-sm flex items-center gap-2 transform translate-y-full opacity-0 transition-all duration-300"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const emailInput = document.getElementById("email");
+    const magicLinkBtn = document.getElementById("magicLinkBtn");
+    const termsCheckbox = document.getElementById("terms");
+
+    function updateButtonState() {
+      magicLinkBtn.disabled = !emailInput.value || !termsCheckbox.checked;
+    }
+
+    emailInput.addEventListener("input", updateButtonState);
+    termsCheckbox.addEventListener("change", updateButtonState);
+
+    function showMessage(message, isError = false) {
+      const messageBox = document.getElementById("message");
+      const icon = isError ? '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>' : '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>';      messageBox.innerHTML = `${icon} ${message}`;
+      messageBox.className = `fixed bottom-8 right-4 p-4 rounded-lg text-sm flex items-center gap-2 transform translate-y-0 opacity-100 transition-all duration-300 ${
+        isError ? 'bg-[rgba(27,27,27,0.05)] text-[#1B1B1B]' : 'bg-[rgba(249,212,58,0.1)] text-[#C6922C]'
+      }`;
+      
+      setTimeout(() => {
+        messageBox.className = "fixed bottom-8 right-4 p-4 rounded-lg text-sm flex items-center gap-2 transform translate-y-full opacity-0 transition-all duration-300";
+      }, 5000);
+    }
+
+    async function sendMagicLink() {
+      const email = document.getElementById("email").value;
+
+      if (!email) {
+        showMessage("Please enter your email address.", true);
+        return;
+      }
+
+      if (!termsCheckbox.checked) {
+        showMessage("Please accept the terms and conditions.", true);
+        return;
+      }
+
+      try {
+        magicLinkBtn.disabled = true;
+        magicLinkBtn.innerHTML = 'Sending...';
+        showMessage("Sending magic link...");
+        
+        const res = await fetch("https://render-firebase-server.onrender.com/api/auth/request", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email })
+        });
+
+        const text = await res.text();
+        showMessage(text);
+      } catch (err) {
+        showMessage("Failed to send link. Please try again.", true);
+      } finally {
+        magicLinkBtn.disabled = false;
+        magicLinkBtn.innerHTML = 'Send Magic Link';
+        updateButtonState();
+      }
+    }
+  </script></body>
+</html>
