@@ -9,20 +9,25 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="font-['Montserrat'] min-h-screen bg-[#FAFAF5]">
-  <div class="flex min-h-screen p-5 md:p-10">
-    <div class="hidden lg:block flex-1 bg-[url('https://www.codency.uno/assets/images/banner-login.png')] bg-center bg-cover bg-no-repeat rounded-l-2xl relative shadow-[0_8px_32px_rgba(27,27,27,0.08)] scale-105">
+  <div class="flex min-h-screen p-4 md:p-8">
+    <div class="hidden bg-white lg:block flex-1 bg-[url('https://www.codency.uno/assets/images/landing-bg.png')] bg-center bg-cover bg-no-repeat rounded-l-2xl relative shadow-[0_8px_32px_rgba(27,27,27,0.08)] scale-105">
     </div>
     <div class="flex-1 flex justify-center items-center">
       <div class="bg-white p-6 md:p-10 rounded-2xl lg:rounded-r-2xl lg:rounded-l-none shadow-[0_8px_32px_rgba(27,27,27,0.08)] w-full max-w-[400px]">
         <img src="https://www.codency.uno/assets/images/logo-transparent-bg.png" alt="Codency Logo" class="w-24 mb-4 mx-auto">
-        <h2 class="text-[#4D3E3E] mb-4 text-3xl font-bold text-center">Login or Sign Up</h2>
-        <p class="text-[#B0B0B0] mb-6 leading-relaxed text-center">Enter your email address below and we'll send you a magic link for a password-free sign in experience.</p>        <input id="email" type="email" placeholder="Enter your email address" required class="w-full p-4 my-4 border-2 border-[#B0B0B0] rounded-lg text-base transition-all duration-300 bg-[#FAFAF5] focus:outline-none focus:border-[#F9D43A] focus:shadow-[0_0_0_3px_rgba(249,212,58,0.1)]" />
-        <div class="flex items-center mb-4">
+        <h2 class="text-[#4D3E3E] mb-2 text-2xl font-bold text-center">Login or Sign Up</h2>
+        <p class="text-sm text-[#B0B0B0] mb-1 leading-relaxed text-center">Enter your email address below and we'll send you a magic link for a password-free sign in experience.</p>        <input id="email" type="email" placeholder="Enter your email address" required class="w-full p-4 my-4 border-2 border-[#B0B0B0] rounded-lg text-base transition-all duration-300 bg-[#FAFAF5] focus:outline-none focus:border-[#F9D43A] focus:shadow-[0_0_0_3px_rgba(249,212,58,0.1)]" />
+        <div class="flex items-center mb-2">
           <input type="checkbox" id="terms" class="mr-2">
           <label for="terms" class="text-sm text-[#B0B0B0]">I agree to the <a href="#" class="text-[#C6922C]">Terms of Service</a> and <a href="#" class="text-[#C6922C]">Privacy Policy</a></label>
         </div>
-        <button id="magicLinkBtn" onclick="sendMagicLink()" class="w-full p-4 mt-4 bg-[#F9D43A] text-[WHITE] border-none rounded-lg text-base font-semibold cursor-pointer transition-all duration-300 hover:translate-y-[-2px] hover:shadow-[0_4px_20px_rgba(198,146,44,0.2)] disabled:opacity-50 disabled:cursor-not-allowed">Send Magic Link</button>
-        
+        <button id="magicLinkBtn" onclick="sendMagicLink()" class="w-full p-4 mt-1 bg-[#F9D43A] text-[WHITE] border-none rounded-lg text-base font-semibold cursor-pointer transition-all duration-300 hover:translate-y-[-2px] hover:shadow-[0_4px_20px_rgba(198,146,44,0.2)] disabled:opacity-50 disabled:cursor-not-allowed">Send Magic Link</button>
+        <div class="flex items-center mt-4 text-sm text-[#B0B0B0]">
+          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+          </svg>
+          <span>If you don't see the email in your inbox, please check your spam folder.</span>
+        </div>
         <div id="message" class="fixed bottom-8 right-4 p-4 rounded-lg text-sm flex items-center gap-2 transform translate-y-full opacity-0 transition-all duration-300"></div>
       </div>
     </div>
